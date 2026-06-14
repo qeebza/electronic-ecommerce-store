@@ -1,3 +1,5 @@
+<script src="/electronic-ecommerce-store/assets/js/confirmed.js"></script>
+
 <?php
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
@@ -34,7 +36,7 @@ if (session_status() === PHP_SESSION_NONE) {
         <?php if (!isset($_SESSION['user_id'])): ?>
             <a href="/electronic-ecommerce-store/auth/login.php">Login</a>
         <?php else: ?>
-            <a href="/electronic-ecommerce-store/auth/logout.php">Logout</a>
+            <a href="/electronic-ecommerce-store/auth/logout.php" onclick="return confirmLogout()">Logout</a>
         <?php endif; ?>
     </nav>
 </header>
