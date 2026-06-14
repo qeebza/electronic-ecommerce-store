@@ -39,7 +39,7 @@ function set_cart_quantity(int $productId, int $quantity): void
     $_SESSION['cart'] = $cart;
 }
 
-function get_cart_items(mysqli $conn): array
+function get_cart_items(PDO $pdo): array
 {
     $cart = get_cart();
     if (!$cart) {
@@ -48,18 +48,15 @@ function get_cart_items(mysqli $conn): array
 
     $productIds = array_keys($cart);
     $placeholders = implode(',', array_fill(0, count($productIds), '?'));
-    $types = str_repeat('i', count($productIds));
-    $stmt = $conn->prepare(
+    $stmt = $pdo->prepare(
         "SELECT product_id, name, price, stock
          FROM products
          WHERE product_id IN ($placeholders)"
     );
-    $stmt->bind_param($types, ...$productIds);
-    $stmt->execute();
-    $result = $stmt->get_result();
+    $stmt->execute($productIds);
     $items = [];
 
-    while ($product = $result->fetch_assoc()) {
+    while ($product = $stmt->fetch()) {
         $productId = (int) $product['product_id'];
         $quantity = min($cart[$productId], (int) $product['stock']);
 

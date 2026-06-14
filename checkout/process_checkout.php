@@ -35,7 +35,7 @@ if (!in_array($paymentMethod, $allowedPaymentMethods, true)) {
     $errors[] = 'Select a valid payment method.';
 }
 
-$items = get_cart_items($conn);
+$items = get_cart_items($pdo);
 if (!$items) {
     $errors[] = 'Your cart is empty.';
 }
@@ -50,34 +50,30 @@ $transactionReference = 'PAY-' . date('YmdHis') . '-' . random_int(1000, 9999);
 $orderStatus = 'Processing';
 $paymentStatus = 'Paid';
 
-mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
-
 try {
-    $conn->begin_transaction();
+    $pdo->beginTransaction();
 
     foreach ($items as $item) {
         $productId = (int) $item['product_id'];
         $quantity = (int) $item['quantity'];
-        $checkStockStmt = $conn->prepare(
+        $checkStockStmt = $pdo->prepare(
             'SELECT stock FROM products WHERE product_id = ? FOR UPDATE'
         );
-        $checkStockStmt->bind_param('i', $productId);
-        $checkStockStmt->execute();
-        $product = $checkStockStmt->get_result()->fetch_assoc();
+        $checkStockStmt->execute([$productId]);
+        $product = $checkStockStmt->fetch();
 
         if (!$product || (int) $product['stock'] < $quantity) {
             throw new RuntimeException($item['name'] . ' does not have enough stock.');
         }
     }
 
-    $orderStmt = $conn->prepare(
+    $orderStmt = $pdo->prepare(
         'INSERT INTO orders
          (customer_name, email, shipping_address, total_amount, status,
           payment_method, payment_status, transaction_reference)
          VALUES (?, ?, ?, ?, ?, ?, ?, ?)'
     );
-    $orderStmt->bind_param(
-        'sssdssss',
+    $orderStmt->execute([
         $name,
         $email,
         $address,
@@ -85,17 +81,16 @@ try {
         $orderStatus,
         $paymentMethod,
         $paymentStatus,
-        $transactionReference
-    );
-    $orderStmt->execute();
-    $orderId = $conn->insert_id;
+        $transactionReference,
+    ]);
+    $orderId = (int) $pdo->lastInsertId();
 
-    $itemStmt = $conn->prepare(
+    $itemStmt = $pdo->prepare(
         'INSERT INTO order_items
          (order_id, product_id, product_name, quantity, price)
          VALUES (?, ?, ?, ?, ?)'
     );
-    $stockStmt = $conn->prepare(
+    $stockStmt = $pdo->prepare(
         'UPDATE products SET stock = stock - ? WHERE product_id = ? AND stock >= ?'
     );
 
@@ -105,18 +100,16 @@ try {
         $quantity = (int) $item['quantity'];
         $price = (float) $item['price'];
 
-        $itemStmt->bind_param('iisid', $orderId, $productId, $productName, $quantity, $price);
-        $itemStmt->execute();
+        $itemStmt->execute([$orderId, $productId, $productName, $quantity, $price]);
 
-        $stockStmt->bind_param('iii', $quantity, $productId, $quantity);
-        $stockStmt->execute();
+        $stockStmt->execute([$quantity, $productId, $quantity]);
 
-        if ($stockStmt->affected_rows !== 1) {
+        if ($stockStmt->rowCount() !== 1) {
             throw new RuntimeException('Stock changed during checkout. Please try again.');
         }
     }
 
-    $conn->commit();
+    $pdo->commit();
     $_SESSION['cart'] = [];
     $_SESSION['order_ids'][] = $orderId;
     $_SESSION['order_message'] = 'Order placed and payment completed successfully.';
@@ -124,7 +117,9 @@ try {
 
     go_to('../order/history.php');
 } catch (Throwable $exception) {
-    $conn->rollback();
+    if ($pdo->inTransaction()) {
+        $pdo->rollBack();
+    }
     $_SESSION['checkout_errors'] = [$exception->getMessage()];
     go_to('checkout.php');
 }

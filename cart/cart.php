@@ -3,7 +3,7 @@ require_once '../db/config.php';
 require_once '../includes/cart_functions.php';
 include '../includes/header.php';
 
-$items = get_cart_items($conn);
+$items = get_cart_items($pdo);
 $total = calculate_total($items);
 $message = get_message();
 ?>

@@ -1,6 +1,6 @@
 <?php
 session_start();
-require 'C:\xampp\htdocs\electronic-ecommerce-store\db\config.php'; // your DB connection file
+require '../db/config.php'; // your DB connection file
 
 if ($_SERVER["REQUEST_METHOD"] !== "POST") {
     header("Location: register.php");

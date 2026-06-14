@@ -25,7 +25,7 @@ if (session_status() === PHP_SESSION_NONE) {
             <a href="/electronic-ecommerce-store/cart/cart.php">Cart</a>
             <a href="/electronic-ecommerce-store/customer/profile.php">Profile</a>
         <?php else: ?>
-            <a href="/electronic-ecommerce-store/auth/login.php">Cart</a>
+            <a href="/electronic-ecommerce-store/cart/cart.php">Cart</a>
             <a href="/electronic-ecommerce-store/auth/login.php">Profile</a>
         <?php endif; ?>
 

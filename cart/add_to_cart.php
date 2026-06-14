@@ -10,10 +10,9 @@ if (!$productId) {
     go_to('cart.php');
 }
 
-$stmt = $conn->prepare('SELECT name, stock FROM products WHERE product_id = ?');
-$stmt->bind_param('i', $productId);
-$stmt->execute();
-$product = $stmt->get_result()->fetch_assoc();
+$stmt = $pdo->prepare('SELECT name, stock FROM products WHERE product_id = ?');
+$stmt->execute([$productId]);
+$product = $stmt->fetch();
 
 if (!$product || (int) $product['stock'] < 1) {
     set_message('Product is not available.');

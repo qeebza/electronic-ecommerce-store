@@ -11,18 +11,16 @@ $orders = [];
 
 if ($orderIds) {
     $placeholders = implode(',', array_fill(0, count($orderIds), '?'));
-    $types = str_repeat('i', count($orderIds));
-    $stmt = $conn->prepare(
+    $stmt = $pdo->prepare(
         "SELECT * FROM orders
          WHERE order_id IN ($placeholders)
          ORDER BY created_at DESC"
     );
-    $stmt->bind_param($types, ...$orderIds);
-    $stmt->execute();
-    $orders = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    $stmt->execute($orderIds);
+    $orders = $stmt->fetchAll();
 }
 
-$itemStmt = $conn->prepare(
+$itemStmt = $pdo->prepare(
     'SELECT product_name, quantity, price
      FROM order_items
      WHERE order_id = ?
@@ -47,9 +45,8 @@ unset($_SESSION['order_message']);
     <?php foreach ($orders as $order): ?>
         <?php
         $orderId = (int) $order['order_id'];
-        $itemStmt->bind_param('i', $orderId);
-        $itemStmt->execute();
-        $orderItems = $itemStmt->get_result()->fetch_all(MYSQLI_ASSOC);
+        $itemStmt->execute([$orderId]);
+        $orderItems = $itemStmt->fetchAll();
         ?>
         <div class="card">
             <h2>Order #<?php echo $orderId; ?></h2>
