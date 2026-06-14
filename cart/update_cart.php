@@ -21,10 +21,9 @@ if ($quantity === 0) {
     go_to('cart.php');
 }
 
-$stmt = $conn->prepare('SELECT stock FROM products WHERE product_id = ?');
-$stmt->bind_param('i', $productId);
-$stmt->execute();
-$product = $stmt->get_result()->fetch_assoc();
+$stmt = $pdo->prepare('SELECT stock FROM products WHERE product_id = ?');
+$stmt->execute([$productId]);
+$product = $stmt->fetch();
 
 if (!$product) {
     set_cart_quantity($productId, 0);
