@@ -20,6 +20,7 @@ if (session_status() === PHP_SESSION_NONE) {
     <nav>
         <a href="/electronic-ecommerce-store/index.php">Home</a>
         <a href="/electronic-ecommerce-store/products/list.php">Products</a>
+<<<<<<< HEAD
 
         <?php if (isset($_SESSION['user_id'])): ?>
             <a href="/electronic-ecommerce-store/cart/cart.php">Cart</a>
@@ -38,5 +39,11 @@ if (session_status() === PHP_SESSION_NONE) {
         <?php else: ?>
             <a href="/electronic-ecommerce-store/auth/logout.php" onclick="return confirmLogout()">Logout</a>
         <?php endif; ?>
+=======
+        <a href="/electronic-ecommerce-store/cart/cart.php">Cart</a>
+        <a href="/electronic-ecommerce-store/customer/profile.php">Profile</a>
+        <a href="/electronic-ecommerce-store/admin/dashboard.php">Admin</a>
+        <a href="/electronic-ecommerce-store/auth/login.php">Login</a>
+>>>>>>> develop
     </nav>
 </header>
