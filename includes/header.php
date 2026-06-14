@@ -1,3 +1,5 @@
+<script src="/electronic-ecommerce-store/assets/js/confirmed.js"></script>
+
 <?php
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
@@ -14,12 +16,34 @@ if (session_status() === PHP_SESSION_NONE) {
 <body>
 <header>
     <div class="logo">Electronic Store</div>
+
     <nav>
         <a href="/electronic-ecommerce-store/index.php">Home</a>
         <a href="/electronic-ecommerce-store/products/list.php">Products</a>
+<<<<<<< HEAD
+
+        <?php if (isset($_SESSION['user_id'])): ?>
+            <a href="/electronic-ecommerce-store/cart/cart.php">Cart</a>
+            <a href="/electronic-ecommerce-store/customer/profile.php">Profile</a>
+        <?php else: ?>
+            <a href="/electronic-ecommerce-store/auth/login.php">Cart</a>
+            <a href="/electronic-ecommerce-store/auth/login.php">Profile</a>
+        <?php endif; ?>
+
+        <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
+            <a href="/electronic-ecommerce-store/admin/dashboard.php">Admin</a>
+        <?php endif; ?>
+
+        <?php if (!isset($_SESSION['user_id'])): ?>
+            <a href="/electronic-ecommerce-store/auth/login.php">Login</a>
+        <?php else: ?>
+            <a href="/electronic-ecommerce-store/auth/logout.php" onclick="return confirmLogout()">Logout</a>
+        <?php endif; ?>
+=======
         <a href="/electronic-ecommerce-store/cart/cart.php">Cart</a>
         <a href="/electronic-ecommerce-store/customer/profile.php">Profile</a>
         <a href="/electronic-ecommerce-store/admin/dashboard.php">Admin</a>
         <a href="/electronic-ecommerce-store/auth/login.php">Login</a>
+>>>>>>> develop
     </nav>
 </header>
