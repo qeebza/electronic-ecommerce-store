@@ -51,6 +51,20 @@ CREATE TABLE order_items (
 );
 
 INSERT INTO products (name, description, price, stock, category, image_path) VALUES
-('Sample Laptop', 'Sample laptop product.', 2999.00, 10, 'Laptops', 'assets/images/products/laptop.jpg'),
-('Sample Smartphone', 'Sample smartphone product.', 1499.00, 15, 'Smartphones', 'assets/images/products/smartphone.jpg'),
-('Sample Headset', 'Sample headset product.', 199.00, 20, 'Accessories', 'assets/images/products/headset.jpg');
+('Apple MacBook Air 13 M3', '13-inch MacBook Air with Apple M3 chip, 8GB unified memory, 256GB SSD, Liquid Retina display, and all-day battery life.', 4999.00, 8, 'Laptops', 'assets/images/products/apple-macbook-air-13-m3.jpg'),
+('Apple MacBook Pro 14 M3 Pro', '14-inch MacBook Pro with M3 Pro chip, 18GB unified memory, 512GB SSD, Liquid Retina XDR display, and pro performance.', 8999.00, 5, 'Laptops', 'assets/images/products/apple-macbook-pro-14-m3-pro.jpg'),
+('Dell XPS 13', 'Premium 13-inch ultrabook with Intel Core processor, 16GB RAM, 512GB SSD, slim design, and bright display.', 5999.00, 7, 'Laptops', 'assets/images/products/dell-xps-13.jpg'),
+('ASUS ROG Zephyrus G14', 'Compact gaming laptop with AMD Ryzen processor, NVIDIA GeForce RTX graphics, high refresh display, and portable chassis.', 7499.00, 6, 'Laptops', 'assets/images/products/asus-rog-zephyrus-g14.jpg'),
+('Lenovo ThinkPad X1 Carbon', 'Business laptop with lightweight carbon-fibre design, Intel Core processor, 16GB RAM, 512GB SSD, and strong keyboard comfort.', 6999.00, 9, 'Laptops', 'assets/images/products/lenovo-thinkpad-x1-carbon.jpg'),
+
+('Apple iPhone 15', 'iPhone 15 with 6.1-inch Super Retina XDR display, A16 Bionic chip, 128GB storage, USB-C, and advanced dual-camera system.', 4399.00, 14, 'Smartphones', 'assets/images/products/apple-iphone-15.jpg'),
+('Apple iPhone 15 Pro', 'iPhone 15 Pro with titanium design, A17 Pro chip, 128GB storage, Pro camera system, and USB-C connectivity.', 5499.00, 10, 'Smartphones', 'assets/images/products/apple-iphone-15-pro.jpg'),
+('Samsung Galaxy S24 Ultra', 'Flagship Android smartphone with 6.8-inch display, S Pen, 256GB storage, high-resolution camera, and Galaxy AI features.', 6299.00, 8, 'Smartphones', 'assets/images/products/samsung-galaxy-s24-ultra.jpg'),
+('Google Pixel 8 Pro', 'Google Pixel 8 Pro with Tensor chip, 128GB storage, advanced camera features, clean Android experience, and AI tools.', 4999.00, 9, 'Smartphones', 'assets/images/products/google-pixel-8-pro.jpg'),
+('Xiaomi 14', 'Compact flagship smartphone with Snapdragon processor, 256GB storage, AMOLED display, Leica camera system, and fast charging.', 3499.00, 12, 'Smartphones', 'assets/images/products/xiaomi-14.jpg'),
+
+('Apple AirPods Pro 2', 'Wireless earbuds with active noise cancellation, transparency mode, MagSafe charging case, and improved sound quality.', 1099.00, 18, 'Accessories', 'assets/images/products/apple-airpods-pro-2.jpg'),
+('Sony WH-1000XM5', 'Premium wireless noise-cancelling headphones with long battery life, lightweight design, and excellent sound quality.', 1799.00, 10, 'Accessories', 'assets/images/products/sony-wh-1000xm5.jpg'),
+('Logitech MX Master 3S', 'Wireless productivity mouse with quiet clicks, ergonomic shape, MagSpeed scroll wheel, and multi-device support.', 429.00, 20, 'Accessories', 'assets/images/products/logitech-mx-master-3s.jpg'),
+('Keychron K2 Mechanical Keyboard', 'Compact wireless mechanical keyboard with hot-swappable switches, Bluetooth support, and Mac/Windows compatibility.', 399.00, 16, 'Accessories', 'assets/images/products/keychron-k2-mechanical-keyboard.jpg'),
+('Anker 737 Power Bank', 'High-capacity portable power bank with fast USB-C charging, digital display, and support for laptops and smartphones.', 699.00, 15, 'Accessories', 'assets/images/products/anker-737-power-bank.jpg');
