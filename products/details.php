@@ -23,41 +23,53 @@ if (!$product) {
 ?>
 
 <main class="container">
-    <div class="card" style="display: flex; gap: 30px; flex-wrap: wrap; align-items: start;">
-        <div class="product-img" style="flex: 1; min-width: 300px; height: 300px; font-size: 24px;">
-            <?php echo htmlspecialchars($product['category'] ?? 'Electronics'); ?> Image
-        </div>
+    <div class="card product-details">
+        <?php if (!empty($product['image_path'])): ?>
+            <div class="product-details-media">
+                <img class="product-img product-photo"
+                     src="/electronic-ecommerce-store/<?php echo htmlspecialchars($product['image_path']); ?>"
+                     alt="<?php echo htmlspecialchars($product['name']); ?>">
+            </div>
+        <?php else: ?>
+            <div class="product-img product-details-placeholder">
+                <?php echo htmlspecialchars($product['category'] ?? 'Electronics'); ?> Image
+            </div>
+        <?php endif; ?>
         
-        <div style="flex: 1; min-width: 300px;">
-            <span style="background: #e5e7eb; padding: 4px 10px; border-radius: 20px; font-size: 0.85em; font-weight: bold; color: #4b5563;">
-                <?php echo htmlspecialchars($product['category']); ?>
-            </span>
-            <h1 style="margin-top: 10px;"><?php echo htmlspecialchars($product['name']); ?></h1>
-            
-            <p style="margin: 20px 0; color: #4b5563; white-space: pre-line;">
-                <?php echo htmlspecialchars($product['description'] ? $product['description'] : 'No descriptive specification provided for this product.'); ?>
-            </p>
-            
-            <p style="font-size: 1.5em; color: #2563eb; margin-bottom: 10px;">
-                <strong>RM <?php echo number_format($product['price'], 2); ?></strong>
-            </p>
-            
-            <p style="margin-bottom: 20px;">
-                <strong>Availability Status:</strong> 
+        <div class="product-details-info">
+            <div>
+                <span class="product-tag">
+                    <?php echo htmlspecialchars($product['category']); ?>
+                </span>
+                <h1 class="product-title"><?php echo htmlspecialchars($product['name']); ?></h1>
+                
+                <p class="product-description">
+                    <?php echo htmlspecialchars($product['description'] ? $product['description'] : 'No descriptive specification provided for this product.'); ?>
+                </p>
+            </div>
+
+            <div class="product-details-actions">
+                <p class="product-price">
+                    <strong>RM <?php echo number_format($product['price'], 2); ?></strong>
+                </p>
+                
+                <p class="product-availability">
+                    <strong>Availability Status:</strong> 
+                    <?php if ($product['stock'] > 0): ?>
+                        <span class="stock-in">In Stock (<?php echo $product['stock']; ?> units remaining)</span>
+                    <?php else: ?>
+                        <span class="stock-out">Out of Stock</span>
+                    <?php endif; ?>
+                </p>
+                
                 <?php if ($product['stock'] > 0): ?>
-                    <span style="color: #10b981; font-weight: bold;">In Stock (<?php echo $product['stock']; ?> units remaining)</span>
+                    <a class="btn product-action-btn" href="../cart/add_to_cart.php?id=<?php echo $product['product_id']; ?>">Add to Cart</a>
                 <?php else: ?>
-                    <span style="color: #ef4444; font-weight: bold;">Out of Stock</span>
+                    <button class="btn btn-secondary product-action-btn btn-disabled" disabled>Sold Out</button>
                 <?php endif; ?>
-            </p>
-            
-            <?php if ($product['stock'] > 0): ?>
-                <a class="btn" href="../cart/add_to_cart.php?id=<?php echo $product['product_id']; ?>" style="padding: 12px 24px; font-size: 1.1em;">Add to Cart</a>
-            <?php else: ?>
-                <button class="btn btn-secondary" disabled style="cursor: not-allowed; padding: 12px 24px; font-size: 1.1em;">Sold Out</button>
-            <?php endif; ?>
-            
-            <a href="list.php" class="btn btn-secondary" style="padding: 12px 24px; font-size: 1.1em; margin-left: 10px;">Back to Catalog</a>
+                
+                <a href="list.php" class="btn btn-secondary product-action-btn product-back-btn">Back to Catalog</a>
+            </div>
         </div>
     </div>
 </main>

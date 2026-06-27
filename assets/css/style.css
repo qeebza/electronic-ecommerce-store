@@ -52,7 +52,7 @@ nav a:hover {
 
 .grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    grid-template-columns: repeat(4, 1fr);
     gap: 20px;
 }
 
@@ -65,6 +65,140 @@ nav a:hover {
     align-items: center;
     color: #6b7280;
     margin-bottom: 12px;
+}
+
+.card.product-filter {
+    display: flex;
+    gap: 15px;
+    align-items: flex-end;
+    flex-wrap: wrap;
+}
+
+.product-filter-search {
+    flex: 2;
+    min-width: 200px;
+}
+
+.product-filter-category {
+    flex: 1;
+    min-width: 150px;
+}
+
+.product-filter-actions {
+    margin-bottom: 14px;
+}
+
+.btn-no-margin {
+    margin-top: 0;
+}
+
+.product-card,
+.product-details-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.product-photo {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    background: transparent;
+    border-radius: 10px;
+}
+
+.product-category {
+    color: #6b7280;
+    font-size: 0.9em;
+    margin-bottom: 5px;
+}
+
+.product-card-actions,
+.product-details-actions {
+    margin-top: auto;
+}
+
+.no-products {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 40px;
+}
+
+.product-details {
+    display: flex;
+    gap: 30px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.product-details-media,
+.product-details-placeholder,
+.product-details-info {
+    flex: 1;
+    min-width: 300px;
+}
+
+.product-details-placeholder {
+    height: 300px;
+    font-size: 24px;
+}
+
+.product-details-info {
+    min-height: 430px;
+}
+
+.product-tag {
+    background: #e5e7eb;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.85em;
+    font-weight: bold;
+    color: #4b5563;
+}
+
+.product-title {
+    margin-top: 10px;
+}
+
+.product-description {
+    margin: 20px 0;
+    color: #4b5563;
+    white-space: pre-line;
+}
+
+.product-price {
+    font-size: 1.5em;
+    color: #2563eb;
+    margin-bottom: 10px;
+}
+
+.product-availability {
+    margin-bottom: 20px;
+}
+
+.stock-in,
+.stock-out {
+    font-weight: bold;
+}
+
+.stock-in {
+    color: #10b981;
+}
+
+.stock-out {
+    color: #ef4444;
+}
+
+.product-action-btn {
+    padding: 12px 24px;
+    font-size: 1.1em;
+}
+
+.product-back-btn {
+    margin-left: 10px;
+}
+
+.btn-disabled {
+    cursor: not-allowed;
 }
 
 button, .btn {
@@ -110,6 +244,10 @@ footer {
 }
 
 @media (max-width: 700px) {
+    .grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
     header {
         flex-direction: column;
         align-items: flex-start;

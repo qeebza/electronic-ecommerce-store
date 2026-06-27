@@ -44,13 +44,13 @@ $result = mysqli_stmt_get_result($stmt);
 <main class="container">
     <h1>Product Listing</h1>
     
-    <form method="get" class="card" style="display: flex; gap: 15px; align-items: flex-end; flex-wrap: wrap;">
-        <div style="flex: 2; min-width: 200px;">
+    <form method="get" class="card product-filter">
+        <div class="product-filter-search">
             <label>Search Product</label>
             <input type="text" name="search" value="<?php echo htmlspecialchars($search); ?>" placeholder="Search laptops, phones, accessories...">
         </div>
         
-        <div style="flex: 1; min-width: 150px;">
+        <div class="product-filter-category">
             <label>Category</label>
             <select name="category">
                 <option value="">All Categories</option>
@@ -62,36 +62,36 @@ $result = mysqli_stmt_get_result($stmt);
             </select>
         </div>
         
-        <div style="margin-bottom: 14px;">
-            <button type="submit" style="margin-top: 0;">Filter</button>
-            <?php if ($search !== '' || $category !== ''): ?>
-                <a href="list.php" class="btn btn-secondary" style="margin-top: 0; display: inline-block; vertical-align: middle;">Clear</a>
-            <?php endif; ?>
+        <div class="product-filter-actions">
+            <button type="submit" class="btn-no-margin">Filter</button>
         </div>
     </form>
 
     <div class="grid">
         <?php if (mysqli_num_rows($result) > 0): ?>
             <?php while ($product = mysqli_fetch_assoc($result)): ?>
-                <div class="card">
+                <div class="card product-card">
                     <?php if (!empty($product['image_path'])): ?>
-                        <img class="product-img"
+                        <img class="product-img product-photo"
                              src="/electronic-ecommerce-store/<?php echo htmlspecialchars($product['image_path']); ?>"
-                             alt="<?php echo htmlspecialchars($product['name']); ?>"
-                             style="width: 100%; object-fit: cover;">
+                             alt="<?php echo htmlspecialchars($product['name']); ?>">
                     <?php else: ?>
                         <div class="product-img">
                             <?php echo htmlspecialchars($product['category'] ?? 'Product'); ?>
                         </div>
                     <?php endif; ?>
-                    <h3><?php echo htmlspecialchars($product['name']); ?></h3>
-                    <p style="color: #6b7280; font-size: 0.9em; margin-bottom: 5px;"><?php echo htmlspecialchars($product['category']); ?></p>
-                    <p><strong>RM <?php echo number_format($product['price'], 2); ?></strong></p>
-                    <a class="btn" href="details.php?id=<?php echo $product['product_id']; ?>">View Details</a>
+                    <div>
+                        <h3><?php echo htmlspecialchars($product['name']); ?></h3>
+                    </div>
+                    <div class="product-card-actions">
+                        <p class="product-category"><?php echo htmlspecialchars($product['category']); ?></p>
+                        <p><strong>RM <?php echo number_format($product['price'], 2); ?></strong></p>
+                        <a class="btn" href="details.php?id=<?php echo $product['product_id']; ?>">View Details</a>
+                    </div>
                 </div>
             <?php endwhile; ?>
         <?php else: ?>
-            <div class="card" style="grid-column: 1 / -1; text-align: center; padding: 40px;">
+            <div class="card no-products">
                 <p>No products match your searching criteria. Try adjusting your filters!</p>
             </div>
         <?php endif; ?>
