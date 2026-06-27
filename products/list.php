@@ -70,10 +70,15 @@ $result = mysqli_stmt_get_result($stmt);
     <div class="grid">
         <?php if (mysqli_num_rows($result) > 0): ?>
             <?php while ($product = mysqli_fetch_assoc($result)): ?>
+                <?php
+                    $imagePath = !empty($product['image_path'])
+                        ? preg_replace('/\.(jpg|jpeg|png)$/i', '.webp', $product['image_path'])
+                        : '';
+                ?>
                 <div class="card product-card">
-                    <?php if (!empty($product['image_path'])): ?>
+                    <?php if ($imagePath !== ''): ?>
                         <img class="product-img product-photo"
-                             src="/electronic-ecommerce-store/<?php echo htmlspecialchars($product['image_path']); ?>"
+                             src="/electronic-ecommerce-store/<?php echo htmlspecialchars($imagePath); ?>"
                              alt="<?php echo htmlspecialchars($product['name']); ?>">
                     <?php else: ?>
                         <div class="product-img">

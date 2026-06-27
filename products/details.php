@@ -13,6 +13,9 @@ mysqli_stmt_bind_param($stmt, "i", $product_id);
 mysqli_stmt_execute($stmt);
 $result = mysqli_stmt_get_result($stmt);
 $product = mysqli_fetch_assoc($result);
+$imagePath = !empty($product['image_path'])
+    ? preg_replace('/\.(jpg|jpeg|png)$/i', '.webp', $product['image_path'])
+    : '';
 
 // Redirect out or message user if targeting invalid entities
 if (!$product) {
@@ -24,10 +27,10 @@ if (!$product) {
 
 <main class="container">
     <div class="card product-details">
-        <?php if (!empty($product['image_path'])): ?>
+        <?php if ($imagePath !== ''): ?>
             <div class="product-details-media">
                 <img class="product-img product-photo"
-                     src="/electronic-ecommerce-store/<?php echo htmlspecialchars($product['image_path']); ?>"
+                     src="/electronic-ecommerce-store/<?php echo htmlspecialchars($imagePath); ?>"
                      alt="<?php echo htmlspecialchars($product['name']); ?>">
             </div>
         <?php else: ?>

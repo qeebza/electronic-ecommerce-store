@@ -51,10 +51,9 @@ if (!$user) {
             <button type="submit" class="btn">Update Profile</button>
         </form>
 
-        <br>
-
-        <a class="btn" href="../order/history.php">View Order History</a>
-        <a class="btn btn-secondary" href="../auth/logout.php" onclick="return confirmLogout()">Logout</a>
+        <div class="profile-actions">
+            <a class="btn" href="../order/history.php">View Order History</a>
+        </div>
     </div>
 </main>
 

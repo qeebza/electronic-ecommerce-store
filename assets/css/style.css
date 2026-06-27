@@ -205,6 +205,10 @@ nav a:hover {
     margin-bottom: 8px;
 }
 
+.profile-actions {
+    margin-top: 24px;
+}
+
 button, .btn {
     display: inline-block;
     background: #2563eb;
