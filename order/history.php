@@ -1,24 +1,18 @@
 <?php
 require_once '../db/config.php';
 require_once '../includes/cart_functions.php';
+
+$userId = require_login('../auth/login.php');
+
 include '../includes/header.php';
 
-$orderIds = array_values(array_filter(
-    array_map('intval', $_SESSION['order_ids'] ?? []),
-    fn(int $orderId): bool => $orderId > 0
-));
-$orders = [];
-
-if ($orderIds) {
-    $placeholders = implode(',', array_fill(0, count($orderIds), '?'));
-    $stmt = $pdo->prepare(
-        "SELECT * FROM orders
-         WHERE order_id IN ($placeholders)
-         ORDER BY created_at DESC"
-    );
-    $stmt->execute($orderIds);
-    $orders = $stmt->fetchAll();
-}
+$stmt = $pdo->prepare(
+    'SELECT * FROM orders
+     WHERE user_id = ?
+     ORDER BY created_at DESC'
+);
+$stmt->execute([$userId]);
+$orders = $stmt->fetchAll();
 
 $itemStmt = $pdo->prepare(
     'SELECT product_name, quantity, price

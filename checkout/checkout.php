@@ -1,6 +1,9 @@
 <?php
 require_once '../db/config.php';
 require_once '../includes/cart_functions.php';
+
+require_login('../auth/login.php');
+
 include '../includes/header.php';
 
 $items = get_cart_items($pdo);

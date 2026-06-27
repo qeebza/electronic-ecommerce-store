@@ -1,9 +1,11 @@
 <?php
 require_once '../db/config.php';
 require_once '../includes/cart_functions.php';
+
 include '../includes/header.php';
 
-$items = get_cart_items($pdo);
+$userId = current_user_id();
+$items = $userId ? get_cart_items($pdo) : [];
 $total = calculate_total($items);
 $message = get_message();
 ?>
@@ -11,10 +13,18 @@ $message = get_message();
     <h1>Shopping Cart</h1>
 
     <?php if ($message !== ''): ?>
-        <p><?php echo escape($message); ?></p>
+        <script>
+            alert(<?php echo json_encode($message); ?>);
+        </script>
     <?php endif; ?>
 
-    <?php if (!$items): ?>
+    <?php if (!$userId): ?>
+        <div class="card">
+            <h2 class="cart-login-title">Please Login First</h2>
+            <p>You need to login before you can view your shopping cart and place an order.</p>
+            <p><a href="../auth/login.php">Login here</a></p>
+        </div>
+    <?php elseif (!$items): ?>
         <div class="card">
             <p>Your cart is empty.</p>
             <a class="btn" href="../products/list.php">Continue Shopping</a>

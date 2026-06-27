@@ -3,6 +3,8 @@ session_start();
 require_once '../db/config.php';
 require_once '../includes/cart_functions.php';
 
+$userId = require_login('../auth/login.php');
+
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     go_to('checkout.php');
 }
@@ -69,11 +71,12 @@ try {
 
     $orderStmt = $pdo->prepare(
         'INSERT INTO orders
-         (customer_name, email, shipping_address, total_amount, status,
+         (user_id, customer_name, email, shipping_address, total_amount, status,
           payment_method, payment_status, transaction_reference)
-         VALUES (?, ?, ?, ?, ?, ?, ?, ?)'
+         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)'
     );
     $orderStmt->execute([
+        $userId,
         $name,
         $email,
         $address,
@@ -110,8 +113,7 @@ try {
     }
 
     $pdo->commit();
-    $_SESSION['cart'] = [];
-    $_SESSION['order_ids'][] = $orderId;
+    clear_cart($pdo);
     $_SESSION['order_message'] = 'Order placed and payment completed successfully.';
     unset($_SESSION['checkout_old']);
 

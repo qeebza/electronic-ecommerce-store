@@ -17,11 +17,6 @@ $stmt = $pdo->prepare("SELECT * FROM users WHERE email = ?");
 $stmt->execute([$email]);
 $user = $stmt->fetch();
 
-var_dump($user);
-var_dump($user);
-
-
-
 if ($user && password_verify($password, $user['password_hash'])) {
 
     // IMPORTANT: reset session safely

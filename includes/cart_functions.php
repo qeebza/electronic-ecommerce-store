@@ -5,43 +5,63 @@ function escape(string $value): string
     return htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
 }
 
-function get_cart(): array
+function current_user_id(): ?int
 {
-    $cart = $_SESSION['cart'] ?? [];
-    $result = [];
-
-    if (!is_array($cart)) {
-        return $result;
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
     }
 
-    foreach ($cart as $productId => $quantity) {
-        $productId = (int) $productId;
-        $quantity = (int) $quantity;
-
-        if ($productId > 0 && $quantity > 0) {
-            $result[$productId] = $quantity;
-        }
-    }
-
-    return $result;
+    return empty($_SESSION['user_id']) ? null : (int) $_SESSION['user_id'];
 }
 
-function set_cart_quantity(int $productId, int $quantity): void
+function require_login(string $loginPath = '../auth/login.php'): int
 {
-    $cart = get_cart();
+    $userId = current_user_id();
 
-    if ($quantity <= 0) {
-        unset($cart[$productId]);
-    } else {
-        $cart[$productId] = $quantity;
+    if (!$userId) {
+        go_to($loginPath);
     }
 
-    $_SESSION['cart'] = $cart;
+    return $userId;
+}
+
+function get_cart(PDO $pdo): array
+{
+    $userId = require_login();
+    $stmt = $pdo->prepare(
+        'SELECT product_id, quantity
+         FROM cart_items
+         WHERE user_id = ?'
+    );
+    $stmt->execute([$userId]);
+
+    return array_column($stmt->fetchAll(), 'quantity', 'product_id');
+}
+
+function set_cart_quantity(PDO $pdo, int $productId, int $quantity): void
+{
+    $userId = require_login();
+
+    if ($quantity <= 0) {
+        $stmt = $pdo->prepare(
+            'DELETE FROM cart_items
+             WHERE user_id = ? AND product_id = ?'
+        );
+        $stmt->execute([$userId, $productId]);
+        return;
+    }
+
+    $stmt = $pdo->prepare(
+        'INSERT INTO cart_items (user_id, product_id, quantity)
+         VALUES (?, ?, ?)
+         ON DUPLICATE KEY UPDATE quantity = VALUES(quantity)'
+    );
+    $stmt->execute([$userId, $productId, $quantity]);
 }
 
 function get_cart_items(PDO $pdo): array
 {
-    $cart = get_cart();
+    $cart = get_cart($pdo);
     if (!$cart) {
         return [];
     }
@@ -61,17 +81,24 @@ function get_cart_items(PDO $pdo): array
         $quantity = min($cart[$productId], (int) $product['stock']);
 
         if ($quantity < 1) {
-            set_cart_quantity($productId, 0);
+            set_cart_quantity($pdo, $productId, 0);
             continue;
         }
 
-        set_cart_quantity($productId, $quantity);
+        set_cart_quantity($pdo, $productId, $quantity);
         $product['quantity'] = $quantity;
         $product['subtotal'] = (float) $product['price'] * $quantity;
         $items[] = $product;
     }
 
     return $items;
+}
+
+function clear_cart(PDO $pdo): void
+{
+    $userId = require_login();
+    $stmt = $pdo->prepare('DELETE FROM cart_items WHERE user_id = ?');
+    $stmt->execute([$userId]);
 }
 
 function calculate_total(array $items): float

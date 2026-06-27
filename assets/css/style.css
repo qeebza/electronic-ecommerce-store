@@ -201,6 +201,10 @@ nav a:hover {
     cursor: not-allowed;
 }
 
+.cart-login-title {
+    margin-bottom: 8px;
+}
+
 button, .btn {
     display: inline-block;
     background: #2563eb;
