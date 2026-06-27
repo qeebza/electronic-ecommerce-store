@@ -1,8 +1,11 @@
-<?php include '../includes/header.php'; ?>
+<?php 
+include '../includes/header.php';
+?>
 
 <main class="container">
     <div class="form-box">
         <h1>Register</h1>
+
 
         <form action="process_register.php" method="post" autocomplete="off">
 
@@ -23,6 +26,18 @@
 
             <label>Confirm Password</label>
             <input type="password" name="confirm_password" placeholder="Confirm password" required>
+
+            <?php
+            if (isset($_SESSION['error'])) {
+                echo "<div class='error'>" . $_SESSION['error'] . "</div>";
+                unset($_SESSION['error']);
+            }
+
+            if (isset($_SESSION['success'])) {
+                echo "<div class='success'>" . $_SESSION['success'] . "</div>";
+                unset($_SESSION['success']);
+            }
+            ?>
 
             <button type="submit">Register</button>
 
