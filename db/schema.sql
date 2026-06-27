@@ -20,6 +20,7 @@ CREATE TABLE products (
     price DECIMAL(10,2) NOT NULL,
     stock INT DEFAULT 0,
     category VARCHAR(100),
+    image_path VARCHAR(255),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -49,7 +50,7 @@ CREATE TABLE order_items (
     FOREIGN KEY (product_id) REFERENCES products(product_id)
 );
 
-INSERT INTO products (name, description, price, stock, category) VALUES
-('Sample Laptop', 'Sample laptop product.', 2999.00, 10, 'Laptops'),
-('Sample Smartphone', 'Sample smartphone product.', 1499.00, 15, 'Smartphones'),
-('Sample Headset', 'Sample headset product.', 199.00, 20, 'Accessories');
+INSERT INTO products (name, description, price, stock, category, image_path) VALUES
+('Sample Laptop', 'Sample laptop product.', 2999.00, 10, 'Laptops', 'assets/images/products/laptop.jpg'),
+('Sample Smartphone', 'Sample smartphone product.', 1499.00, 15, 'Smartphones', 'assets/images/products/smartphone.jpg'),
+('Sample Headset', 'Sample headset product.', 199.00, 20, 'Accessories', 'assets/images/products/headset.jpg');
