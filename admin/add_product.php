@@ -11,14 +11,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $price = floatval($_POST['price']);
     $stock = intval($_POST['stock']);
     $category = trim($_POST['category']); // Added to match schema
+    $image_path = trim($_POST['image_path']);
 
     // Simple validation
     if (!empty($name) && $price >= 0 && $stock >= 0 && !empty($category)) {
         // SQL query using prepared statements for security
-        $sql = "INSERT INTO products (name, description, price, stock, category) VALUES (?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO products (name, description, price, stock, category, image_path) VALUES (?, ?, ?, ?, ?, ?)";
         
         if ($stmt = mysqli_prepare($conn, $sql)) {
-            mysqli_stmt_bind_param($stmt, "ssdis", $name, $description, $price, $stock, $category);
+            mysqli_stmt_bind_param($stmt, "ssdiss", $name, $description, $price, $stock, $category, $image_path);
             
             if (mysqli_stmt_execute($stmt)) {
                 $message = "<div class='card' style='background: #d1fae5; color: #065f46; border: 1px solid #10b981;'>Product added successfully! <a href='products.php'>View All Products</a></div>";
@@ -52,6 +53,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <option value="Monitors">Monitors</option>
                 <option value="Tablets">Tablets</option>
             </select>
+
+            <label>Image Path</label>
+            <input type="text" name="image_path" placeholder="assets/images/products/example.jpg">
 
             <label>Description</label>
             <textarea name="description" rows="4" placeholder="Enter specifications or feature bullet points..."></textarea>

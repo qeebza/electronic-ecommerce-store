@@ -74,9 +74,16 @@ $result = mysqli_stmt_get_result($stmt);
         <?php if (mysqli_num_rows($result) > 0): ?>
             <?php while ($product = mysqli_fetch_assoc($result)): ?>
                 <div class="card">
-                    <div class="product-img">
-                        <?php echo htmlspecialchars($product['category'] ?? 'Product'); ?>
-                    </div>
+                    <?php if (!empty($product['image_path'])): ?>
+                        <img class="product-img"
+                             src="/electronic-ecommerce-store/<?php echo htmlspecialchars($product['image_path']); ?>"
+                             alt="<?php echo htmlspecialchars($product['name']); ?>"
+                             style="width: 100%; object-fit: cover;">
+                    <?php else: ?>
+                        <div class="product-img">
+                            <?php echo htmlspecialchars($product['category'] ?? 'Product'); ?>
+                        </div>
+                    <?php endif; ?>
                     <h3><?php echo htmlspecialchars($product['name']); ?></h3>
                     <p style="color: #6b7280; font-size: 0.9em; margin-bottom: 5px;"><?php echo htmlspecialchars($product['category']); ?></p>
                     <p><strong>RM <?php echo number_format($product['price'], 2); ?></strong></p>
