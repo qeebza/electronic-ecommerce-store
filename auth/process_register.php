@@ -18,28 +18,38 @@ $phone    = trim($_POST['phone'] ?? '');
 // Basic validation
     
 if (empty($username) || empty($email) || empty($password) || empty($confirm) || empty($name) || empty($phone)) {
-    die("All fields are required.");
+    $_SESSION['error'] = "All fields are required.";
+    header("Location: register.php");
+    exit();
 }
 
 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-    die("Invalid email format.");
+    $_SESSION['error'] = "Invalid email format.";
+    header("Location: register.php");
+    exit();
 }
 
 if ($password !== $confirm) {
-    die("Passwords do not match.");
+    $_SESSION['error'] = "Passwords do not match.";
+    header("Location: register.php");
+    exit();
 }
 
 if (strlen($password) < 6) {
-    die("Password must be at least 6 characters.");
+    $_SESSION['error'] = "Password must be at least 6 characters.";
+    header("Location: register.php");
+    exit();
 }
 
 try {
-    // Check if user already exists
+    // Check if username or email already exists
     $stmt = $pdo->prepare("SELECT user_id FROM users WHERE email = ? OR username = ?");
     $stmt->execute([$email, $username]);
 
     if ($stmt->fetch()) {
-        die("Username or email already exists.");
+        $_SESSION['error'] = "Username or email already exists.";
+        header("Location: register.php");
+        exit();
     }
 
     // Hash password
@@ -54,5 +64,7 @@ try {
     exit;
 
 } catch (PDOException $e) {
-    die("Database error: " . $e->getMessage());
+    $_SESSION['error'] = "Database error: " . $e->getMessage();
+    header("Location: register.php");
+    exit();
 }
