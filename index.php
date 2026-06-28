@@ -19,6 +19,11 @@
                 <h3 style="margin: 0;">Smartphones</h3>
             </a>
 
+            <a class="card" href="products/list.php?category=Tablets" style="text-decoration: none; color: inherit; text-align: center; display: block;">
+                <img src="assets/images/products/apple-ipad-air-11-m3.webp" alt="Tablets" style="width: 100%; height: 180px; object-fit: contain; margin-bottom: 15px;">
+                <h3 style="margin: 0;">Tablets</h3>
+            </a>
+
             <a class="card" href="products/list.php?category=Audio" style="text-decoration: none; color: inherit; text-align: center; display: block;">
                 <img src="assets/images/products/anker-soundcore-liberty-4-nc.webp" alt="Audio Devices" style="width: 100%; height: 180px; object-fit: contain; margin-bottom: 15px;">
                 <h3 style="margin: 0;">Audio Devices</h3>
