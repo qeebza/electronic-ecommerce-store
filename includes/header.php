@@ -15,7 +15,12 @@ if (session_status() === PHP_SESSION_NONE) {
 </head>
 <body>
 <header>
-    <div class="logo">Electronic Store</div>
+    <div class="header-brand">
+        <a class="logo" href="/electronic-ecommerce-store/index.php">Electronic Store</a>
+        <?php if (isset($_SESSION['user_id'])): ?>
+            <span class="nav-user">Hi, <?php echo htmlspecialchars($_SESSION['username'] ?? 'Customer'); ?></span>
+        <?php endif; ?>
+    </div>
 
     <nav>
         <a href="/electronic-ecommerce-store/index.php">Home</a>

@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const status = new URLSearchParams(window.location.search).get("login");
 
     if (status === "failed") {
-        alert("Login failed!");
+        alert("Incorrect email or password");
     }
 
     if (status === "success") {

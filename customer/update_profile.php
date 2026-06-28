@@ -26,6 +26,7 @@ try {
         WHERE user_id = ?
     ");
     $stmt->execute([$username, $phone, $address, $user_id]);
+    $_SESSION['username'] = $username;
 
     header("Location: profile.php?updated=1");
     exit;

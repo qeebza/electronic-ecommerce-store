@@ -53,7 +53,6 @@ unset($_SESSION['checkout_errors'], $_SESSION['checkout_old']);
                 </p>
             <?php endforeach; ?>
             <p><strong>Total: <?php echo money($total); ?></strong></p>
-            <p>Payment is simulated for this project. No real payment details are collected.</p>
 
             <button type="submit">Place Order</button>
         </form>

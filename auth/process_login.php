@@ -24,6 +24,7 @@ if ($user && password_verify($password, $user['password_hash'])) {
 
     $_SESSION['user_id'] = $user['user_id'];
     $_SESSION['role'] = $user['role'];
+    $_SESSION['username'] = $user['username'];
 
     header('Location: ../customer/profile.php?login=success');
     exit;

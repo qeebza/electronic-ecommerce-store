@@ -28,8 +28,8 @@ if (strlen($name) < 2 || strlen($name) > 100) {
 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
     $errors[] = 'Enter a valid email address.';
 }
-if (strlen($address) < 10 || strlen($address) > 500) {
-    $errors[] = 'Enter a complete shipping address.';
+if ($address === '' || strlen($address) > 500) {
+    $errors[] = 'Enter a shipping address.';
 }
 
 $allowedPaymentMethods = ['card', 'online_banking', 'ewallet'];
