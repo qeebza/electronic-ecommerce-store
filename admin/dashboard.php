@@ -21,8 +21,8 @@ $total_orders = mysqli_fetch_assoc($res)['cnt'];
 $res = mysqli_query($conn, "SELECT COUNT(*) AS cnt FROM orders WHERE status = 'Pending'");
 $pending_orders = mysqli_fetch_assoc($res)['cnt'];
 
-// Low Stock (stock < 5)
-$res = mysqli_query($conn, "SELECT COUNT(*) AS cnt FROM products WHERE stock < 5");
+// Low Stock (stock <= 5)
+$res = mysqli_query($conn, "SELECT COUNT(*) AS cnt FROM products WHERE stock <= 5");
 $low_stock = mysqli_fetch_assoc($res)['cnt'];
 ?>
 <main class="container">
