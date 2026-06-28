@@ -21,7 +21,7 @@ if (isset($_GET['delete'])) {
     exit;
 }
 
-$result = mysqli_query($conn, 'SELECT * FROM products ORDER BY created_at DESC');
+$result = mysqli_query($conn, 'SELECT * FROM products ORDER BY product_id ASC');
 
 include '../includes/header.php';
 ?>
